@@ -25,10 +25,9 @@ const accounts = [
 
 /* eslint-disable react/prefer-stateless-function */
 export class HomeContainer extends React.Component {
-
   constructor(props) {
     super(props);
-    this.state = { accounts: [...accounts]};
+    this.state = { accounts: [...accounts] };
   }
 
   render() {
