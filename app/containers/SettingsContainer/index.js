@@ -22,7 +22,6 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
 import AccountList from '../../components/AccountList';
 import saga from './saga';
 import reducer from './reducer';
@@ -89,7 +88,7 @@ export class SettingsContainer extends React.Component {
   }
 
   render() {
-    const { classes, match } = this.props;
+    const { classes } = this.props;
     return (
       <div className={classes.root}>
         <Drawer
@@ -134,7 +133,6 @@ export class SettingsContainer extends React.Component {
               user: <UserSettings />,
             }[this.state.selectedSettingMenu.toLowerCase()]
           }
-          <Typography paragraph>Loaded</Typography>
         </main>
       </div>
     );
