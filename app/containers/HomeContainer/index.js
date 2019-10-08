@@ -17,6 +17,8 @@ import { Route, Switch } from 'react-router-dom';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import AccountNavigator from 'containers/AccountNavigator/Loadable';
 import SettingsContainer from 'containers/SettingsContainer/Loadable';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
 import makeSelectHomeContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -30,7 +32,7 @@ const accounts = [
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
+    display: 'flex',
   },
   menuButton: {
     marginRight: 2,
@@ -47,6 +49,11 @@ const styles = theme => ({
   fullList: {
     width: 'auto',
   },
+  content: {
+    flexGrow: 1,
+    padding: 3,
+  },
+  toolbar: theme.mixins.toolbar,
 });
 
 export class HomeContainer extends React.Component {
@@ -61,22 +68,32 @@ export class HomeContainer extends React.Component {
     const { classes, match } = this.props;
     return (
       <div className={classes.root}>
+        <CssBaseline />
         <AppBarNavigator classes={classes} />
-        <Switch>
-          <Route
-            exact
-            path={`${match.url}accounts`}
-            component={AccountNavigator}
-          />
-          <Route path={`${match.url}settings`} component={SettingsContainer} />
-          <Route component={NotFoundPage} />
-        </Switch>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <Switch>
+            <Route
+              exact
+              path={`${match.url}accounts`}
+              render={() => <AccountNavigator accounts={this.state.accounts} />}
+            />
+            <Route
+              path={`${match.url}settings`}
+              render={() => (
+                <SettingsContainer accounts={this.state.accounts} />
+              )}
+            />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </main>
       </div>
     );
   }
 }
 
 HomeContainer.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func.isRequired,
   classes: PropTypes.object,
   match: PropTypes.object,

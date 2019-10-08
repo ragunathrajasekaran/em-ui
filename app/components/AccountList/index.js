@@ -8,12 +8,8 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'redux';
 import List from '@material-ui/core/List';
-import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import ListItem from '@material-ui/core/ListItem';
+import * as PropTypes from 'prop-types';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import AccountListItem from '../AccountListItem';
 
 const styles = theme => ({
@@ -24,7 +20,6 @@ const styles = theme => ({
 });
 
 function AccountList(props) {
-  // eslint-disable-next-line react/prop-types
   const {
     classes,
     accounts,
@@ -34,7 +29,8 @@ function AccountList(props) {
   } = props;
   return (
     <div>
-      <List className={classes.root}>
+      <CssBaseline />
+      <List>
         {accounts.map(account => (
           <AccountListItem
             key={account.id}
@@ -45,13 +41,6 @@ function AccountList(props) {
           />
         ))}
       </List>
-      <Route>
-        {({ location }) => (
-          <Typography gutterBottom>
-            Current route: {location.pathname}
-          </Typography>
-        )}
-      </Route>
     </div>
   );
 }
@@ -60,13 +49,8 @@ AccountList.propTypes = {
   classes: PropTypes.object.isRequired,
   accounts: PropTypes.array,
   selectedAccount: PropTypes.object,
-  didSelectAccountToDelete: PropTypes.func,
   didSelectRow: PropTypes.func,
+  didSelectAccountToDelete: PropTypes.func,
 };
 
-export default compose(
-  withRouter,
-  withStyles(styles),
-)(AccountList);
-
-// export default withStyles(styles)(AccountList);
+export default compose(withStyles(styles))(AccountList);

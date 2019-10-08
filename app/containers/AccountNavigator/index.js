@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -13,32 +13,18 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import AccountList from '../../components/AccountList';
 import saga from './saga';
 import reducer from './reducer';
 import makeSelectAccountNavigator from './selectors';
 
 const drawerWidth = 240;
-
-const accounts = [
-  { id: 1, title: 'Credit Account', desc: 'Credit Card Account', total: 3333 },
-  { id: 2, title: 'My Wallet', desc: 'My Personal Waller', total: 30 },
-  { id: 3, title: 'Bank Account', desc: 'My Savings Account', total: 10000 },
-];
 
 const styles = theme => ({
   root: {
@@ -54,14 +40,16 @@ const styles = theme => ({
     flexGrow: 1,
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 3,
+    zIndex: theme.zIndex.drawer + 2,
   },
   drawer: {
     width: drawerWidth,
+    top: 100,
     flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
+    marginTop: 64,
   },
   content: {
     flexGrow: 1,
@@ -75,7 +63,6 @@ export class AccountNavigator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      accounts: [...accounts],
       selectedAccount: {},
     };
 
@@ -105,16 +92,14 @@ export class AccountNavigator extends React.Component {
           }}
           anchor="left"
         >
-          <div className={classes.toolbar} />
           <Divider />
           <AccountList
-            accounts={this.state.accounts}
+            accounts={this.props.accounts}
             didSelectRow={this.didSelectRow}
             selectedAccount={this.state.selectedAccount}
           />
         </Drawer>
         <main className={classes.content}>
-          <div className={classes.toolbar} />
           <Typography paragraph>
             {JSON.stringify(this.state.selectedAccount)}
           </Typography>
@@ -125,8 +110,10 @@ export class AccountNavigator extends React.Component {
 }
 
 AccountNavigator.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func.isRequired,
   classes: PropTypes.object,
+  accounts: PropTypes.array,
 };
 
 const mapStateToProps = createStructuredSelector({

@@ -32,7 +32,7 @@ class AppBarNavigator extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <div>
         <EmAppBar classes={classes} toggleDrawer={this.toggleDrawer} />
         <Drawer
           open={this.state.isMenuOpened}
@@ -40,7 +40,7 @@ class AppBarNavigator extends React.Component {
         >
           <MenuList classes={classes} toggleDrawer={this.toggleDrawer} />
         </Drawer>
-      </React.Fragment>
+      </div>
     );
   }
 }

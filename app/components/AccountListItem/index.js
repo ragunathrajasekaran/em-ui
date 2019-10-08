@@ -10,28 +10,32 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
+import Divider from '@material-ui/core/Divider';
 
 const AccountListItem = props => (
-  <ListItem
-    button
-    onClick={() => props.didSelectRow(props.account)}
-    selected={props.selected}
-  >
-    <ListItemText
-      primary={props.account.title}
-      secondary={props.account.total}
-    />
-    {props.didSelectAccountToDelete ? (
-      <ListItemSecondaryAction>
-        <IconButton aria-label="Comments">
-          <DeleteIcon
-            onClick={() => props.didSelectAccountToDelete(props.account)}
-          />
-        </IconButton>
-      </ListItemSecondaryAction>
-    ) : null}
-  </ListItem>
+  <React.Fragment>
+    <ListItem
+      button
+      onClick={() => props.didSelectRow(props.account)}
+      selected={props.selected}
+    >
+      <ListItemText
+        primary={props.account.title}
+        secondary={props.account.total}
+      />
+      {props.didSelectAccountToDelete ? (
+        <ListItemSecondaryAction>
+          <IconButton aria-label="Comments">
+            <DeleteIcon
+              onClick={() => props.didSelectAccountToDelete(props.account)}
+            />
+          </IconButton>
+        </ListItemSecondaryAction>
+      ) : null}
+    </ListItem>
+    <Divider variant="middle" />
+  </React.Fragment>
 );
 
 // const AccountListItem = account => (

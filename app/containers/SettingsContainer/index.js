@@ -51,6 +51,7 @@ const styles = theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    marginTop: 64,
   },
   content: {
     flexGrow: 1,
@@ -59,17 +60,11 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-const accounts = [
-  { id: 1, title: 'Credit Account', desc: 'Credit Card Account', total: 3333 },
-  { id: 2, title: 'My Wallet', desc: 'My Personal Waller', total: 30 },
-  { id: 3, title: 'Bank Account', desc: 'My Savings Account', total: 10000 },
-];
 /* eslint-disable react/prefer-stateless-function */
 export class SettingsContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      accounts: [...accounts],
       selectedSettingMenu: 'accounts',
     };
 
@@ -99,7 +94,6 @@ export class SettingsContainer extends React.Component {
           }}
           anchor="left"
         >
-          <div className={classes.toolbar} />
           <Divider />
           <List>
             {['Accounts', 'User'].map((text, index) => (
@@ -121,12 +115,11 @@ export class SettingsContainer extends React.Component {
           </List>
         </Drawer>
         <main className={classes.content}>
-          <div className={classes.toolbar} />
           {
             {
               accounts: (
                 <AccountList
-                  accounts={this.state.accounts}
+                  accounts={this.props.accounts}
                   didSelectAccountToDelete={this.didSelectAccountToDelete}
                 />
               ),
@@ -143,6 +136,7 @@ SettingsContainer.propTypes = {
   dispatch: PropTypes.func.isRequired,
   classes: PropTypes.object,
   match: PropTypes.object,
+  accounts: PropTypes.array,
 };
 
 const mapStateToProps = createStructuredSelector({
