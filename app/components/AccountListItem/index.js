@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -13,34 +13,43 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import * as PropTypes from 'prop-types';
 import Divider from '@material-ui/core/Divider';
 
-const AccountListItem = props => (
-  <React.Fragment>
-    <ListItem
-      button
-      onClick={() => props.didSelectRow(props.account)}
-      selected={props.selected}
-    >
-      <ListItemText
-        primary={props.account.title}
-        secondary={props.account.total}
-      />
-      {props.didSelectAccountToDelete ? (
-        <ListItemSecondaryAction>
-          <IconButton aria-label="Comments">
-            <DeleteIcon
-              onClick={() => props.didSelectAccountToDelete(props.account)}
-            />
-          </IconButton>
-        </ListItemSecondaryAction>
-      ) : null}
-    </ListItem>
-    <Divider variant="middle" />
-  </React.Fragment>
-);
+class AccountListItem extends Component {
+  didSelectAccount = account => e => {
+    e.preventDefault();
+    if (this.props.didSelectRow !== undefined) this.props.didSelectRow(account);
+  };
 
-// const AccountListItem = account => (
-//   <ListItemLink to="/accounts/1" primary={account.title} icon={<InboxIcon />} />
-// );
+  didSelectAccountToDelete = account => e => {
+    e.preventDefault();
+    if (this.props.didSelectAccountToDelete !== undefined)
+      this.props.didSelectAccountToDelete(account);
+  };
+
+  render() {
+    const { account, selected, didSelectAccountToDelete } = this.props;
+
+    return (
+      <React.Fragment>
+        <ListItem
+          button
+          onClick={this.didSelectAccount(account)}
+          selected={selected}
+        >
+          <ListItemText primary={account.title} secondary={account.total} />
+          {didSelectAccountToDelete ? (
+            <ListItemSecondaryAction>
+              <IconButton aria-label="Comments">
+                <DeleteIcon onClick={this.didSelectAccountToDelete(account)} />
+              </IconButton>
+            </ListItemSecondaryAction>
+          ) : null}
+        </ListItem>
+        <Divider variant="middle" />
+      </React.Fragment>
+    );
+  }
+}
+
 AccountListItem.propTypes = {
   account: PropTypes.object,
   selected: PropTypes.bool,
@@ -49,4 +58,3 @@ AccountListItem.propTypes = {
 };
 
 export default AccountListItem;
-// export default withRouterInnerRef(AccountListItem);

@@ -40,7 +40,7 @@ const styles = theme => ({
     flexGrow: 1,
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 2,
+    zIndex: theme.zIndex.drawer + 1,
   },
   drawer: {
     width: drawerWidth,
