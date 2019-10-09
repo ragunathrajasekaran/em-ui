@@ -64,6 +64,15 @@ export class HomeContainer extends React.Component {
     };
   }
 
+  didSelectAccountToDelete = accountToDelete => {
+    // eslint-disable-next-line no-console
+    console.log('didSelectAccountToDelete', accountToDelete);
+    const filteredItems = this.state.accounts.filter(
+      account => account.id !== accountToDelete.id,
+    );
+    this.setState({ accounts: [...filteredItems] });
+  };
+
   render() {
     const { classes, match } = this.props;
     return (
@@ -81,7 +90,10 @@ export class HomeContainer extends React.Component {
             <Route
               path={`${match.url}settings`}
               render={() => (
-                <SettingsContainer accounts={this.state.accounts} />
+                <SettingsContainer
+                  accounts={this.state.accounts}
+                  didSelectAccountToDelete={this.didSelectAccountToDelete}
+                />
               )}
             />
             <Route component={NotFoundPage} />

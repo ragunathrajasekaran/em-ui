@@ -16,9 +16,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import AccountList from '../../components/AccountList';
 import saga from './saga';
 import reducer from './reducer';
@@ -58,26 +55,24 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-/* eslint-disable react/prefer-stateless-function */
 export class AccountNavigator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedAccount: {},
     };
-
-    this.didSelectRow = this.didSelectRow.bind(this);
   }
 
-  didSelectRow(selectedAccount) {
-    console.log('selectedAccount', selectedAccount);
+  didSelectRow = selectedAccount => {
+    // eslint-disable-next-line no-console
+    console.log('Selected Account', selectedAccount);
     this.setState(prevState => ({
       selectedAccount: {
         ...prevState.selectedAccount,
         ...selectedAccount,
       },
     }));
-  }
+  };
 
   render() {
     const { classes } = this.props;
@@ -101,7 +96,9 @@ export class AccountNavigator extends React.Component {
         </Drawer>
         <main className={classes.content}>
           <Typography paragraph>
-            {JSON.stringify(this.state.selectedAccount)}
+            {this.state.selectedAccount.title
+              ? JSON.stringify(this.state.selectedAccount)
+              : 'Please Select An Account To View The Details'}
           </Typography>
         </main>
       </div>

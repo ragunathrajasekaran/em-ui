@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -13,16 +13,11 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { withStyles } from '@material-ui/core/styles';
-import ListItem from '@material-ui/core/ListItem';
-import { Link } from 'react-router-dom';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
-import InboxIcon from '@material-ui/icons/Inbox';
-import MailIcon from '@material-ui/icons/Mail';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import AccountList from '../../components/AccountList';
+import SettingsMenuItem from '../../components/SettingsMenuItem';
 import saga from './saga';
 import reducer from './reducer';
 import makeSelectSettingsContainer from './selectors';
@@ -60,6 +55,8 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
+const UserSettings = () => <h2>User Settings</h2>;
+
 /* eslint-disable react/prefer-stateless-function */
 export class SettingsContainer extends React.Component {
   constructor(props) {
@@ -67,20 +64,16 @@ export class SettingsContainer extends React.Component {
     this.state = {
       selectedSettingMenu: 'accounts',
     };
-
-    this.didSelectRow = this.didSelectRow.bind(this);
-    this.didSelectAccountToDelete = this.didSelectAccountToDelete.bind(this);
   }
 
-  didSelectRow(selectedSettingMenu) {
-    console.log('selectedSettingMenu', selectedSettingMenu);
+  didSelectRow = selectedSettingMenu => e => {
+    e.preventDefault();
     this.setState({ selectedSettingMenu });
-  }
+  };
 
-  didSelectAccountToDelete(accountToDelete) {
-    console.log('didSelectAccountToDelete', accountToDelete);
-    // this.setState({ selectedSettingMenu });
-  }
+  didSelectAccountToDelete = accountToDelete => {
+    this.props.didSelectAccountToDelete(accountToDelete);
+  };
 
   render() {
     const { classes } = this.props;
@@ -97,20 +90,13 @@ export class SettingsContainer extends React.Component {
           <Divider />
           <List>
             {['Accounts', 'User'].map((text, index) => (
-              <ListItem
-                button
+              <SettingsMenuItem
                 key={text}
-                onClick={() => this.didSelectRow(text)}
-                selected={
-                  this.state.selectedSettingMenu.toLowerCase() ===
-                  text.toLowerCase()
-                }
-              >
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
+                onClick={this.didSelectRow(text)}
+                selectedSettingMenu={this.state.selectedSettingMenu}
+                text={text}
+                index={index}
+              />
             ))}
           </List>
         </Drawer>
@@ -133,10 +119,11 @@ export class SettingsContainer extends React.Component {
 }
 
 SettingsContainer.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func.isRequired,
   classes: PropTypes.object,
-  match: PropTypes.object,
   accounts: PropTypes.array,
+  didSelectAccountToDelete: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -163,7 +150,3 @@ export default compose(
   withConnect,
   withStyles(styles),
 )(SettingsContainer);
-
-function UserSettings() {
-  return <h2>User Settings</h2>;
-}
