@@ -10,16 +10,13 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import AccountList from '../../components/AccountList';
+import injectReducer from '../../utils/injectReducer';
+import injectSaga from '../../utils/injectSaga';
 import saga from './saga';
 import reducer from './reducer';
 import makeSelectAccountNavigator from './selectors';
+import AccountNavigation from '../../components/AccountNavigation';
 
 const drawerWidth = 240;
 
@@ -28,7 +25,7 @@ const styles = theme => ({
     display: 'flex',
   },
   list: {
-    width: 250,
+    width: drawerWidth,
   },
   menuButton: {
     marginRight: 2,
@@ -56,52 +53,18 @@ const styles = theme => ({
 });
 
 export class AccountNavigator extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedAccount: {},
-    };
-  }
-
   didSelectRow = selectedAccount => {
     // eslint-disable-next-line no-console
     console.log('Selected Account', selectedAccount);
-    this.setState(prevState => ({
-      selectedAccount: {
-        ...prevState.selectedAccount,
-        ...selectedAccount,
-      },
-    }));
   };
 
   render() {
-    const { classes } = this.props;
-
     return (
-      <div className={classes.root}>
-        <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          anchor="left"
-        >
-          <Divider />
-          <AccountList
-            accounts={this.props.accounts}
-            didSelectRow={this.didSelectRow}
-            selectedAccount={this.state.selectedAccount}
-          />
-        </Drawer>
-        <main className={classes.content}>
-          <Typography paragraph>
-            {this.state.selectedAccount.title
-              ? JSON.stringify(this.state.selectedAccount)
-              : 'Please Select An Account To View The Details'}
-          </Typography>
-        </main>
-      </div>
+      <AccountNavigation
+        classes={this.props.classes}
+        accounts={this.props.accounts}
+        didSelectRow={this.didSelectRow}
+      />
     );
   }
 }
@@ -109,8 +72,8 @@ export class AccountNavigator extends React.Component {
 AccountNavigator.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func.isRequired,
-  classes: PropTypes.object,
   accounts: PropTypes.array,
+  classes: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({

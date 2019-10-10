@@ -31,8 +31,8 @@ function AccountList(props) {
         <AccountListItem
           key={account.id}
           account={account}
-          didSelectRow={didSelectRow}
           selected={selectedAccount && selectedAccount.id === account.id}
+          didSelectRow={didSelectRow}
           didSelectAccountToDelete={didSelectAccountToDelete}
         />
       ))}
