@@ -9,8 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import * as PropTypes from 'prop-types';
 
-function AccountDetail(account) {
-  if (account.title === undefined) {
+function AccountDetail({ title, desc, total }) {
+  if (title === undefined) {
     return (
       <Typography paragraph>
         Please Provide Account Info To View In The Details
@@ -21,15 +21,15 @@ function AccountDetail(account) {
   return (
     <React.Fragment>
       <Typography variant="h3" gutterBottom>
-        {account.title.toUpperCase()}
+        {title.toUpperCase()}
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
-        {account.desc}
+        {desc}
       </Typography>
       <Divider />
       <Divider />
       <Typography variant="h3" gutterBottom align="right">
-        TOTAL : {account.total}
+        TOTAL : {total}
       </Typography>
       <Divider />
       <Divider />
@@ -39,6 +39,8 @@ function AccountDetail(account) {
 
 AccountDetail.propTypes = {
   title: PropTypes.string,
+  desc: PropTypes.string,
+  total: PropTypes.number,
 };
 
 export default AccountDetail;

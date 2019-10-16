@@ -17,8 +17,6 @@ import { Route, Switch } from 'react-router-dom';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import AccountNavigator from 'containers/AccountNavigator/Loadable';
 import SettingsContainer from 'containers/SettingsContainer/Loadable';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import makeSelectHomeContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -33,25 +31,13 @@ const accounts = [
 const styles = theme => ({
   root: {
     display: 'flex',
-  },
-  menuButton: {
-    marginRight: 2,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  title: {
-    flexGrow: 1,
-  },
-  list: {
-    width: 250,
-  },
-  fullList: {
-    width: 'auto',
+    backgroundColor: theme.palette.secondary.light,
   },
   content: {
     flexGrow: 1,
-    padding: 3,
+    marginTop: 64,
+    height: 'calc(100vh - 64px)',
+    backgroundColor: theme.palette.secondary.light,
   },
   toolbar: theme.mixins.toolbar,
 });
@@ -77,10 +63,8 @@ export class HomeContainer extends React.Component {
     const { classes, match } = this.props;
     return (
       <div className={classes.root}>
-        <CssBaseline />
-        <AppBarNavigator classes={classes} />
+        <AppBarNavigator />
         <main className={classes.content}>
-          <div className={classes.toolbar} />
           <Switch>
             <Route
               exact
@@ -96,7 +80,7 @@ export class HomeContainer extends React.Component {
                 />
               )}
             />
-            <Route component={NotFoundPage} />
+            {/* <Route component={NotFoundPage} /> */}
           </Switch>
         </main>
       </div>

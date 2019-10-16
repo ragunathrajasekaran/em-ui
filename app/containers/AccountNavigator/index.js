@@ -18,38 +18,10 @@ import reducer from './reducer';
 import makeSelectAccountNavigator from './selectors';
 import AccountNavigation from '../../components/AccountNavigation';
 
-const drawerWidth = 240;
-
 const styles = theme => ({
   root: {
     display: 'flex',
   },
-  list: {
-    width: drawerWidth,
-  },
-  menuButton: {
-    marginRight: 2,
-  },
-  title: {
-    flexGrow: 1,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  drawer: {
-    width: drawerWidth,
-    top: 100,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    marginTop: 64,
-  },
-  content: {
-    flexGrow: 1,
-    padding: 8,
-  },
-  toolbar: theme.mixins.toolbar,
 });
 
 export class AccountNavigator extends React.Component {
@@ -61,7 +33,7 @@ export class AccountNavigator extends React.Component {
   render() {
     return (
       <AccountNavigation
-        classes={this.props.classes}
+        className={this.props.classes.root}
         accounts={this.props.accounts}
         didSelectRow={this.didSelectRow}
       />

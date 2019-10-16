@@ -7,8 +7,16 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
+import withStyles from '@material-ui/core/styles/withStyles';
 import MenuList from '../MenuList/Loadable';
 import EmAppBar from '../EmAppBar/Loadable';
+
+// eslint-disable-next-line no-unused-vars
+const styles = theme => ({
+  drawerPaper: {
+    background: theme.palette.secondary.light,
+  },
+});
 
 class AppBarNavigator extends React.Component {
   constructor(props) {
@@ -37,8 +45,11 @@ class AppBarNavigator extends React.Component {
         <Drawer
           open={this.state.isMenuOpened}
           onClose={this.toggleDrawer(false)}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
         >
-          <MenuList classes={classes} toggleDrawer={this.toggleDrawer} />
+          <MenuList toggleDrawer={this.toggleDrawer} />
         </Drawer>
       </div>
     );
@@ -49,4 +60,4 @@ AppBarNavigator.propTypes = {
   classes: PropTypes.object,
 };
 
-export default AppBarNavigator;
+export default withStyles(styles)(AppBarNavigator);

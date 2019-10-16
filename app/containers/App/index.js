@@ -15,10 +15,20 @@ import HomeContainer from 'containers/HomeContainer/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
+import { withStyles } from '@material-ui/core';
 
-export default function App() {
+const styles = theme => ({
+  appRoot: {
+    backgroundColor: theme.palette.secondary.light,
+    height: '100%',
+  },
+});
+
+function App(props) {
+  // eslint-disable-next-line react/prop-types
+  const { classes } = props;
   return (
-    <div>
+    <div className={classes.appRoot}>
       <Switch>
         <Route path="/" component={HomeContainer} />
         <Route component={NotFoundPage} />
@@ -27,3 +37,5 @@ export default function App() {
     </div>
   );
 }
+
+export default withStyles(styles)(App);

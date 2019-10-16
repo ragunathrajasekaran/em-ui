@@ -10,7 +10,38 @@ import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import AccountList from '../AccountList';
 import AccountDetail from '../AccountDetail';
+import { withStyles } from '@material-ui/core';
 
+const drawerWidth = 240;
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    backgroundColor: theme.palette.secondary.dark,
+  },
+  list: {
+    width: drawerWidth,
+  },
+  nonPadding: {
+    paddingTop: 0,
+  },
+  content: {
+    flexGrow: 1,
+    padding: 0,
+    backgroundColor: theme.palette.secondary.dark,
+    height: 'calc(100vh - 64px)',
+  },
+  drawer: {
+    width: drawerWidth,
+    top: 64,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    marginTop: 64,
+    background: theme.palette.secondary.light,
+  },
+});
 class AccountNavigation extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +76,11 @@ class AccountNavigation extends React.Component {
         >
           <Divider />
           <AccountList
+            classes={{
+              padding: classes.nonPadding,
+            }}
+            disablePadding
+            className={classes.list}
             accounts={this.props.accounts}
             didSelectRow={this.didSelectRow}
             selectedAccount={this.state.selectedAccount}
@@ -65,4 +101,4 @@ AccountNavigation.propTypes = {
   selectedAccount: PropTypes.object,
 };
 
-export default AccountNavigation;
+export default withStyles(styles)(AccountNavigation);
