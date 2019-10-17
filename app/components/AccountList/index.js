@@ -11,7 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/MoneyOff';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 const styles = theme => ({
   root: {
@@ -25,7 +25,7 @@ const AccountListItem = account => (
     <Avatar>
       <ImageIcon />
     </Avatar>
-    <ListItemText primary={account.title} secondary={account.total} />
+    <ListItemText primary={account.title} secondary={account.description} />
   </ListItem>
 );
 

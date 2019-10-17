@@ -5,13 +5,13 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
+import injectSaga from '../../utils/injectSaga';
+import injectReducer from '../../utils/injectReducer';
 import makeSelectHomeContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -30,6 +30,28 @@ export class HomeContainer extends React.Component {
     this.state = { accounts: [...accounts] };
   }
 
+  componentDidMount() {
+    this.fetchAccounts();
+  }
+
+  fetchAccounts = () => {
+    fetch(`http://localhost:8080/accounts`, {
+      headers: { 'Access-Control-Allow-Origin': true },
+    })
+      .then(response => response.json())
+      .then(response => this.handleSuccessResponse(response))
+      .catch(error => this.handleErrorResponse(error));
+  };
+
+  handleSuccessResponse = response => {
+    this.setState({ accounts: [...response.content] });
+  };
+
+  handleErrorResponse = error => {
+    // eslint-disable-next-line no-console
+    console.log('Error while fetching accounts :', error);
+  };
+
   render() {
     return (
       <div>
@@ -40,6 +62,7 @@ export class HomeContainer extends React.Component {
 }
 
 HomeContainer.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func.isRequired,
 };
 
