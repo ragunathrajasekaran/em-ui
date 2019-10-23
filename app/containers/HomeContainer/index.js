@@ -35,9 +35,7 @@ export class HomeContainer extends React.Component {
   }
 
   fetchAccounts = () => {
-    fetch(`http://localhost:8080/accounts`, {
-      headers: { 'Access-Control-Allow-Origin': true },
-    })
+    fetch('http://localhost:8080/accounts')
       .then(response => response.json())
       .then(response => this.handleSuccessResponse(response))
       .catch(error => this.handleErrorResponse(error));
